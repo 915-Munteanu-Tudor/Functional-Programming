@@ -1,0 +1,31 @@
+%10. For a list a1... an with integer and distinct numbers, define a predicate to
+%determine all subsets with sum of elements divisible with n.
+sum([], SC, SC).
+sum([H|T], SC, S):-
+    SC1 is SC+H,
+    sum(T, SC1, S).
+
+insert(E, L, [E|L]).
+insert(E, [H|T], [H|R]):-
+    insert(E, T, R).
+
+perm([], []).
+perm([H|T], R):-
+    perm(T, TR),
+    insert(H, TR, R).
+
+subs([],[]).
+subs([H|T], [H|R]):-
+    subs(T,R).
+subs([_|T], R):-
+    subs(T,R).
+
+onesol(L,N,R):-
+    subs(L,R1),
+    sum(R1, 0, S),
+    S mod N =:= 0,
+    R = R1.
+
+allsol(L,N,R):-
+    findall(RL,onesol(L,N,RL),R).
+
