@@ -1,0 +1,54 @@
+;;6
+;;a) test if a list is linear
+
+(defun checklist (list)
+  (cond ((null list) t)
+      ((not (numberp (first list))) nil)
+      (t (checklist (rest list)))))
+(print (checklist '(r 4 5 s)))
+(print (checklist '(3 5 1)))
+(print (checklist '()))
+
+;;b)replace first occurence of E in list with O
+
+(defun repl (list e o)
+  (cond ((null list) '() )
+  ((equal (car list) e) (cons o (cdr list)))
+  (t (cons (car list) (repl (cdr list) e o)))))
+(print (repl '(2 4 5 2 4 6) 4  'y))
+
+;;c) Write a function to replace each sublist of a list with its last element.
+
+;; varianta 1
+
+(defun rep(list)
+    (cond
+        ((null list) nil)
+        ((listp (car list)) (rep (cons (car (reverse (car list))) (rep (cdr list)))))
+        (t (cons (car list) (rep (cdr list))))
+    )
+)
+(print (rep '(a (b c) (d (e (f (g j)))) h)))
+
+;;d) Write a function to merge two sorted lists without keeping double values.
+
+(defun remove_doubles (l)
+    (cond
+        ((null l) nil)
+        ((null (cdr l)) (list (car l)))
+        ((= (car l) (cadr l)) (remove_doubles (cdr l)))
+        (T (cons (car l) (remove_doubles (cdr l))))
+    )
+)
+
+(defun merge1 (l1 l2)
+  (cond
+   ((null l2) (remove_doubles l1))
+   ((null l1) (remove_doubles l2))
+   ((< (car l1) (car l2)) (cons (car l1) (merge1 (cdr l1) l2)))
+   ((> (car l1) (car l2)) (cons (car l2) (merge1 l1 (cdr l2))))
+   (t (cons (car l1) (merge1 (cdr l1) (cdr l2))))
+))
+(print (merge1 '() '(2 3 3 5)))
+(print (merge1 '(3 5 6) '()))
+(print (merge1 '(2 4 6 7) '(3 4 5 6 9)))
