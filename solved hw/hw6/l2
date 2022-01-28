@@ -1,0 +1,23 @@
+;;13) For a given tree of type 2, return the path from the root node to a 
+;; certain given node X
+
+(defun appear (l x)
+  (cond
+      ((null l) nil)
+      ((equal (car l) x) t)
+      (t (or (appear (cadr l) x) (appear (caddr l) x)))
+))
+
+(print (appear '(A (B) (C (D) (E))) 'D))
+(print (appear '(A (B) (C (D) (E))) 'F))
+(print (appear '() 'D))
+
+(defun path (l x)
+  (cond
+       ((not (appear l x)) nil)
+       ((equal (car l) x) (list x))
+       ((appear (cadr l) x) (cons (car l) (path (cadr l) x)))
+       (t (cons (car l) (path (caddr l) x)))
+))
+
+(print (path '(A (B) (C (D) (E))) 'D))

@@ -1,0 +1,8 @@
+(defun sum (x)
+	(cond
+		((numberp x) x)
+		((atom x) 0)
+		(t (apply '+ (mapcar #' sum x)))
+	)
+)
+(print sum '(1 2 3 (4) 5 a b)))
